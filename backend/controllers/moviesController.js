@@ -4,7 +4,7 @@ import Movie from "../models/movieModel.js";
 import path from "path";
 import fs from "fs";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = "https://moviebooking-yqod.onrender.com";
 
 /* ---------------------- small helpers ---------------------- */
 const getUploadUrl = (val) => {
