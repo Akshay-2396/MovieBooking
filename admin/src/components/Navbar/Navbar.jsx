@@ -24,7 +24,7 @@ export default function Navbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("adminToken");
 
-    window.location.href = "http://localhost:5173/login";
+    window.location.href = "https://moviebookingservice.netlify.app/login";
   };
 
   useEffect(() => {

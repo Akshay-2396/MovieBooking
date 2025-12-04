@@ -80,7 +80,7 @@ const LoginPage = () => {
         // REDIRECT BASED ON ROLE
         setTimeout(() => {
           if (isAdmin) {
-            window.location.href = "http://localhost:5174";
+            window.location.href = "https://moviebooking-admin.netlify.app";
           } else {
             window.location.href = "/";
           }
