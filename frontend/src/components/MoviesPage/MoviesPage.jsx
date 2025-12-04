@@ -1,53 +1,29 @@
 
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { moviesPageStyles } from "../../assets/dummyStyles";
 
-const API_BASE = "https://moviebooking-yqod.onrender.com";
+const API_BASE = "https://moviebooking-backend-vo9q.onrender.com";
 const COLLAPSE_COUNT = 12;
-const PLACEHOLDER = "https://via.placeholder.com/400x600?text=No+Poster";
+const PLACEHOLDER = "https://placehold.co/400x600?text=No+Poster";
 
-// const getUploadUrl = (maybe) => {
-//   if (!maybe) return null;
-//   if (typeof maybe !== "string") return null;
-
-//   const trimmed = maybe.trim();
-
-//   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
-//   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
-//     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
-//   }
-//   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
-//     return `${API_BASE}/uploads/${trimmed}`;
-//   }
-//   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
-//     return null;
-//   }
-//   return `${API_BASE}/uploads/${trimmed}`;
-// };
 
 const getUploadUrl = (maybe) => {
   if (!maybe) return null;
   if (typeof maybe !== "string") return null;
 
-  // ⭐ FIX: Convert backslashes → forward slashes
-  let trimmed = maybe.trim().replace(/\\/g, "/");
+  const trimmed = maybe.trim();
 
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
-
   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
   }
-
   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
     return `${API_BASE}/uploads/${trimmed}`;
   }
-
   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
     return null;
   }
-
   return `${API_BASE}/uploads/${trimmed}`;
 };
 
@@ -111,7 +87,7 @@ export default function MoviesPage() {
           const res2 = await fetch(`${API_BASE}/api/movies?limit=200`);
           if (!res2.ok) throw new Error(`Fallback HTTP ${res2.status}`);
           const json2 = await res2.json();
-          const items2 = Array.isArray(json2.movies) ? json2.movies:Array.isArray(json2.items)?json2.items : [];
+          const items2 = Array.isArray(json2.items) ? json2.items : [];
           const mapped2 = items2.map(mapBackendMovie);
           if (mounted) {
             setMovies(mapped2);
