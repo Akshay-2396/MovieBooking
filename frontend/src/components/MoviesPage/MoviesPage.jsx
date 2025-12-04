@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { moviesPageStyles } from "../../assets/dummyStyles";
 
-const API_BASE = "https://moviebooking-backend-vo9q.onrender.com";
+const API_BASE = "https://moviebooking-yqod.onrender.com";
 const COLLAPSE_COUNT = 12;
 const PLACEHOLDER = "https://placehold.co/400x600?text=No+Poster";
 
