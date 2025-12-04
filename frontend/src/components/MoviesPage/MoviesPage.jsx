@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { moviesPageStyles } from "../../assets/dummyStyles";
 
-const API_BASE = "http://localhost:8000";
+const API_BASE = "https://moviebooking-yqod.onrender.com";
 const COLLAPSE_COUNT = 12;
 const PLACEHOLDER = "https://via.placeholder.com/400x600?text=No+Poster";
 

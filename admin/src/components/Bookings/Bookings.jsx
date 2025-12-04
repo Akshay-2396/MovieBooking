@@ -33,7 +33,7 @@ function getStoredToken() {
 }
 
 // API base — change with Vite env var if needed
-const API_BASE = import.meta?.env?.VITE_API_BASE_URL || "http://localhost:8000";
+const API_BASE = import.meta?.env?.VITE_API_BASE_URL || "https://moviebooking-yqod.onrender.com";
 
 export default function Bookings() {
   const [selectedMovie, setSelectedMovie] = useState("");

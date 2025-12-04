@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { signUpStyles, signUpCSS } from "../../assets/dummyStyles";
 
 // Set API base to environment variable or fallback to localhost
-const API_BASE = "http://localhost:8000/api/auth";
+const API_BASE = "https://moviebooking-yqod.onrender.com/api/auth";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({

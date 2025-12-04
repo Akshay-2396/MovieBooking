@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addMoviePageStyles, addMoviePageCustomStyles } from "../../assets/dummyStyles";
 
-const API_HOST = "http://localhost:8000";
+const API_HOST = "https://moviebooking-yqod.onrender.com";
 
 export default function AddMoviePage() {
   // form state
