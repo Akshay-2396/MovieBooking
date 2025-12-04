@@ -7,20 +7,38 @@ import fs from "fs";
 const API_BASE = "https://moviebooking-yqod.onrender.com";
 
 /* ---------------------- small helpers ---------------------- */
-const getUploadUrl = (val) => {
-  if (!val) return null;
-  if (typeof val === "string" && /^(https?:\/\/)/.test(val)) return val;
-  const cleaned = String(val).replace(/^uploads\//, "");
-  if (!cleaned) return null;
-  return `${API_BASE}/uploads/${cleaned}`;
+// const getUploadUrl = (val) => {
+//   if (!val) return null;
+//   if (typeof val === "string" && /^(https?:\/\/)/.test(val)) return val;
+//   const cleaned = String(val).replace(/^uploads\//, "");
+//   if (!cleaned) return null;
+//   return `${API_BASE}/uploads/${cleaned}`;
+// };
+
+const getUploadUrl = (input) => {
+  if (!input) return null;
+
+  if (typeof input === "string" && input.startsWith("http")) {
+    return input;
+  }
+
+  const clean = String(input).replace(/^\/?uploads\//, "");
+  return `${API_BASE}/uploads/${clean}`;
 };
 
+// const extractFilenameFromUrl = (u) => {
+//   if (!u || typeof u !== "string") return null;
+//   const parts = u.split("/uploads/");
+//   if (parts[1]) return parts[1];
+//   if (u.startsWith("uploads/")) return u.replace(/^uploads\//, "");
+//   return /^[^\/]+\.[a-zA-Z0-9]+$/.test(u) ? u : null;
+// };
 const extractFilenameFromUrl = (u) => {
   if (!u || typeof u !== "string") return null;
   const parts = u.split("/uploads/");
   if (parts[1]) return parts[1];
   if (u.startsWith("uploads/")) return u.replace(/^uploads\//, "");
-  return /^[^\/]+\.[a-zA-Z0-9]+$/.test(u) ? u : null;
+  return /^[^\/\\]+$/.test(u) ? u : null;
 };
 
 const tryUnlinkUploadUrl = (urlOrFilename) => {
