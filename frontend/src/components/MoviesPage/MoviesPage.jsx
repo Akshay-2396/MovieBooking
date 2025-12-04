@@ -111,7 +111,7 @@ export default function MoviesPage() {
           const res2 = await fetch(`${API_BASE}/api/movies?limit=200`);
           if (!res2.ok) throw new Error(`Fallback HTTP ${res2.status}`);
           const json2 = await res2.json();
-          const items2 = Array.isArray(json2.items) ? json2.items : [];
+          const items2 = Array.isArray(json2.movies) ? json2.movies:Array.isArray(json2.items)?json2.items : [];
           const mapped2 = items2.map(mapBackendMovie);
           if (mounted) {
             setMovies(mapped2);

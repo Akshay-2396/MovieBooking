@@ -227,12 +227,12 @@ export default function Movies() {
 
     async function loadFeaturedMovies() {
       try {
-        const url = `${API_BASE}/api/movies?featured&limit=100`;
+        const url = `${API_BASE}/api/movies?type=featured&limit=100`;
         const res = await fetch(url, { signal: ac.signal });
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
 
         const json = await res.json();
-        const items = json.items ?? (Array.isArray(json) ? json : []);
+        const items = json.movies ?? json.items(Array.isArray(json) ? json : []);
 
         // Keep only movies marked as featured
         const featuredOnly = items.filter(
