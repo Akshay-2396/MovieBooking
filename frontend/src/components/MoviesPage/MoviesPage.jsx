@@ -8,22 +8,46 @@ const API_BASE = "https://moviebooking-yqod.onrender.com";
 const COLLAPSE_COUNT = 12;
 const PLACEHOLDER = "https://via.placeholder.com/400x600?text=No+Poster";
 
+// const getUploadUrl = (maybe) => {
+//   if (!maybe) return null;
+//   if (typeof maybe !== "string") return null;
+
+//   const trimmed = maybe.trim();
+
+//   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+//   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
+//     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
+//   }
+//   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
+//     return `${API_BASE}/uploads/${trimmed}`;
+//   }
+//   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
+//     return null;
+//   }
+//   return `${API_BASE}/uploads/${trimmed}`;
+// };
+
 const getUploadUrl = (maybe) => {
   if (!maybe) return null;
   if (typeof maybe !== "string") return null;
 
-  const trimmed = maybe.trim();
+  // ⭐ FIX: Convert backslashes → forward slashes
+  let trimmed = maybe.trim().replace(/\\/g, "/");
 
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+
   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
   }
+
   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
     return `${API_BASE}/uploads/${trimmed}`;
   }
+
   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
     return null;
   }
+
   return `${API_BASE}/uploads/${trimmed}`;
 };
 

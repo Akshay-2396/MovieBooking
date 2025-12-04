@@ -8,11 +8,40 @@ import { moviesStyles } from "../../assets/dummyStyles";
 const API_BASE = "https://moviebooking-yqod.onrender.com";
 const PLACEHOLDER = "https://via.placeholder.com/400x600?text=No+Poster";
 
+// const getUploadUrl = (maybe) => {
+//   if (!maybe) return null;
+//   if (typeof maybe !== "string") return null;
+
+//   const trimmed = maybe.trim();
+
+//   // If already an absolute URL, return it
+//   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+
+//   // If it's already stored as "uploads/xxx" or "public/uploads/xxx"
+//   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
+//     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
+//   }
+
+//   // If it looks like just a filename with extension (movie-123.png)
+//   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
+//     return `${API_BASE}/uploads/${trimmed}`;
+//   }
+
+//   // If value looks like "400x600?text=No+Poster" or contains query-like only, treat as invalid
+//   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
+//     return null;
+//   }
+
+//   // last resort: join as uploads/
+//   return `${API_BASE}/uploads/${trimmed}`;
+// };
+
 const getUploadUrl = (maybe) => {
   if (!maybe) return null;
   if (typeof maybe !== "string") return null;
 
-  const trimmed = maybe.trim();
+  // ⭐ FIX: Convert Windows backslashes → forward slashes
+  let trimmed = maybe.trim().replace(/\\/g, "/");
 
   // If already an absolute URL, return it
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
@@ -22,17 +51,17 @@ const getUploadUrl = (maybe) => {
     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
   }
 
-  // If it looks like just a filename with extension (movie-123.png)
+  // If it looks like just a filename
   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
     return `${API_BASE}/uploads/${trimmed}`;
   }
 
-  // If value looks like "400x600?text=No+Poster" or contains query-like only, treat as invalid
+  // If invalid pattern
   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
     return null;
   }
 
-  // last resort: join as uploads/
+  // Default fallback
   return `${API_BASE}/uploads/${trimmed}`;
 };
 
