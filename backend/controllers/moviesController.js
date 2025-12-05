@@ -149,7 +149,7 @@ const normalizeItemForOutput = (it = {}) => {
 
   // NEW: include auditorium in normalized output (keep null if not present)
   obj.auditorium = it.auditorium || null;
-
+  obj.slots=it.slots || [];
   return obj;
 };
 
