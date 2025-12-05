@@ -26,7 +26,7 @@ app.use("/api/auth", userRouter);
 app.use("/api/movies", movieRouter);
 app.use("/api/bookings", bookingRouter);
 
-app.get("/", (_, res) => res.send("API Working"));
+app.get("/", (_, res) => res.send("Welcome to Backend 🤗"));
 
 app.listen(PORT, () =>
   console.log(`Server Started Running Successfully`)

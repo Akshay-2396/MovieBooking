@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 import { v2 as cloudinary } from "cloudinary";
 
-const API_BASE = process.env.API_BASE || "https://moviebooking-yqod.onrender.com";
+const API_BASE =  "https://moviebooking-yqod.onrender.com";
 
 /* ---------- Cloudinary config ---------- */
 cloudinary.config({
