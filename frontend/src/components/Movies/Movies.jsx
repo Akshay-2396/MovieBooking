@@ -308,7 +308,6 @@
 // }
 
 
-
 import React, { useEffect, useState } from "react";
 import { Tickets } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -317,37 +316,25 @@ import { moviesStyles } from "../../assets/dummyStyles";
 const API_BASE = "https://moviebooking-yqod.onrender.com";
 const PLACEHOLDER = "https://placehold.co/400x600?text=No+Poster";
 
-
-/**
- * getUploadUrl:
- * - returns full absolute URL when given a valid URL or server-side upload filename.
- * - returns `null` for clearly invalid values (so callers can use PLACEHOLDER).
- */
 const getUploadUrl = (maybe) => {
   if (!maybe) return null;
   if (typeof maybe !== "string") return null;
 
   const trimmed = maybe.trim();
-
-  // If already an absolute URL, return it
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
 
-  // If it's already stored as "uploads/xxx" or "public/uploads/xxx"
   if (/^(uploads\/|public\/uploads\/)/i.test(trimmed)) {
     return `${API_BASE}/${trimmed.replace(/^public\//i, "")}`;
   }
 
-  // If it looks like just a filename with extension (movie-123.png)
   if (/^[\w\-.]+?\.(jpg|jpeg|png|webp|gif|bmp|svg)$/i.test(trimmed)) {
     return `${API_BASE}/uploads/${trimmed}`;
   }
 
-  // If value looks like "400x600?text=No+Poster" or contains query-like only, treat as invalid
   if (/^\d+x\d+\?/.test(trimmed) || /\s/.test(trimmed) || trimmed.includes("?")) {
     return null;
   }
 
-  // last resort: join as uploads/
   return `${API_BASE}/uploads/${trimmed}`;
 };
 
@@ -359,18 +346,17 @@ export default function Movies() {
   useEffect(() => {
     const ac = new AbortController();
     setLoading(true);
-    setError(null);
 
     async function loadFeaturedMovies() {
       try {
         const url = `${API_BASE}/api/movies?featured&limit=100`;
         const res = await fetch(url, { signal: ac.signal });
+
         if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+
         const json = await res.json();
+        const items = json.items ?? [];
 
-        const items = json.items ?? (Array.isArray(json) ? json : []);
-
-        // Keep only featured items
         const featuredOnly = items.filter(
           (it) =>
             it?.featured === true ||
@@ -379,11 +365,9 @@ export default function Movies() {
         );
 
         setMovies(featuredOnly.slice(0, 6));
-        setLoading(false);
       } catch (err) {
-        if (err.name === "AbortError") return;
-        console.error("Movies load error:", err);
-        setError("Unable to load featured movies.");
+        if (err.name !== "AbortError") setError("Unable to load featured movies.");
+      } finally {
         setLoading(false);
       }
     }
@@ -394,10 +378,6 @@ export default function Movies() {
 
   return (
     <section className={moviesStyles.container}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&display=swap');
-      `}</style>
-
       <h2 className={moviesStyles.title}>Featured Movies</h2>
 
       {loading ? (
@@ -413,26 +393,21 @@ export default function Movies() {
             const imgSrc = getUploadUrl(rawImg) || PLACEHOLDER;
             const title = m.movieName || m.title || "Untitled";
             const category = (Array.isArray(m.categories) && m.categories[0]) || m.category || "General";
-            const movieId = m._id || m.id || title;
+            const movieId = m._id || m.id;
 
             return (
-              <article
-                key={movieId}
-                className={moviesStyles.movieArticle}
-                aria-labelledby={`movie-title-${movieId}`}
-              >
+              <article key={movieId} className={moviesStyles.movieArticle}>
                 <Link
-                  to={`/movie/${movieId}`}
+                  to={`/movies/${movieId}`}
+                  state={{ movie: m }}
                   className={moviesStyles.movieLink}
-                  aria-label={`Open ${title} details`}
                 >
                   <img
                     src={imgSrc}
                     alt={title}
-                    loading="lazy"
                     className={moviesStyles.movieImage}
+                    loading="lazy"
                     onError={(e) => {
-                      // last-resort fallback
                       if (e.currentTarget.src !== PLACEHOLDER) e.currentTarget.src = PLACEHOLDER;
                     }}
                   />
@@ -440,12 +415,9 @@ export default function Movies() {
 
                 <div className={moviesStyles.movieInfo}>
                   <div className={moviesStyles.titleContainer}>
-                    <Tickets className={moviesStyles.ticketsIcon} aria-hidden="true" />
-                    <span id={`movie-title-${movieId}`} className={moviesStyles.movieTitle}>
-                      {title}
-                    </span>
+                    <Tickets className={moviesStyles.ticketsIcon} />
+                    <span className={moviesStyles.movieTitle}>{title}</span>
                   </div>
-
                   <div className={moviesStyles.categoryContainer}>
                     <span className={moviesStyles.categoryText}>{category}</span>
                   </div>
