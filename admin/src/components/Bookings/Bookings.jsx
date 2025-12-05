@@ -283,10 +283,10 @@ export default function Bookings() {
 
                     {/* NEW: auditorium display */}
                     <div className={styles2.detailItem}>
-                      <Ticket className={styles2.detailIcon} />
+                      <MapPin className={styles2.locationIcon} />
                       <div className="text-sm text-gray-300">
                         <span className={styles2.auditoriumLabel}>
-                          Auditorium:
+                          Theater:
                         </span>
                         <span className={styles2.auditoriumValue}>
                           {audiDisplay}
