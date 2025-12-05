@@ -186,7 +186,7 @@ export default function MoviesPage() {
                 {visibleMovies.map((movie) => (
                   <Link
                     key={movie.id || movie.title}
-                    to={`/movies/${movie.id}`}
+                    to={`/movie/${movie.id}`}
                     state={{ movie: movie.raw }}
                     aria-label={`Open details for ${movie.title}`}
                     className={moviesPageStyles.movieCard}
