@@ -69,7 +69,7 @@ export default function Movies() {
 
   return (
     <section className={moviesStyles.container}>
-      <h2 className={moviesStyles.title} style={{ fontFamily: "'Dancing Script', cursive",fontSize:"30px"} } >Featured Movies</h2>
+      <h2 className={moviesStyles.title} style={{ fontFamily: "'Dancing Script', cursive",fontSize:"40px"} } >Featured Movies</h2>
 
       {loading ? (
         <div className="text-gray-300 py-12 text-center">Loading movies…</div>
